@@ -11,91 +11,107 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/ui/Loading.jsx";
 
 function Results() {
-    const location = useLocation();
-    const [movies, setMovies] = useState([]);
-    const [error, setError] = useState("");
-    const [userQuery, setUserQuery] = useState("");
-    const navigate = useNavigate();
-    // const [loading, setLoading] = useState(true);
-    // const onChange
+  const location = useLocation();
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState("");
+  const [userQuery, setUserQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
+  // const [loading, setLoading] = useState(true);
+  // const onChange
 
-      window.addEventListener("beforeunload", () => {
+  window.addEventListener("beforeunload", () => {
     localStorage.removeItem("userQuery");
   });
 
-    const fetchMovies = async (userQuery) => {
-        if (!userQuery.trim()) {
-            return;
-        }
-        // setLoading(true);
+  const fetchMovies = async (userQuery) => {
+    if (!userQuery.trim()) {
+      return;
+    }
+    // setLoading(true);
+    setError("");
+    try {
+      const apiKey = "29e531e2";
+      if (!apiKey) {
+        setMovies([]);
+        setError(
+          "API key is missing. Please set REACT_APP_OMDB_API_KEY in your environment."
+        );
+        return;
+      }
+      const response = await fetch(
+        `https://www.omdbapi.com/?apikey=29e531e2&s=${userQuery}`
+      );
+      if (!response.ok) {
+        setMovies([]);
+        console.log(response);
+        setError(`Error: ${response.status} ${response.statusText}`);
+        return;
+      }
+      const data = await response.json();
+      const allResults = data.Search || [];
+      if (Array.isArray(allResults) && allResults.length > 0) {
+        setMovies(allResults);
         setError("");
-        try {
-            const apiKey = "29e531e2";
-            if (!apiKey) {
-                setMovies([]);
-                setError(
-                    "API key is missing. Please set REACT_APP_OMDB_API_KEY in your environment."
-                );
-                return;
-            }
-            const response = await fetch(
-                `https://www.omdbapi.com/?apikey=29e531e2&s=${encodeURIComponent(
-                    userQuery
-                )}`
-            );
-            if (!response.ok) {
-                setMovies([]);
-                setError(`Error: ${response.status} ${response.statusText}`);
-                return;
-            }
-            const data = await response.json();
-            const allResults = data.Search || [];
-            if (Array.isArray(allResults) && allResults.length > 0) {
-                setMovies(allResults);
-                setError("");
-            } else {
-                setMovies([]);
-                setError("No movies found. Please try a different search.");
-            }
-        } catch (err) {
-            setMovies([]);
-            setError("An error occurred. Please try again later.");
-        } finally {
-            // setLoading(false);
-        }
-    };
+      } else {
+        setMovies([]);
+        setError("No movies found. Please try a different search.");
+      }
+    } catch (err) {
+      setMovies([]);
+      setError("An error occurred. Please try again later.");
+    } finally {
+      // setLoading(false);
+    }
+    console.log("fetchMovies ran (userQuery)", movies);
+  };
 
-     const onChange = (e) => {
+  const onChange = (e) => {
     setUserQuery(e.target.value);
   };
   const onFormSubmit = (e) => {
     e.preventDefault();
     fetchMovies(userQuery);
-    console.log("this ran", userQuery);
+
     localStorage.setItem("userQuery", userQuery);
     // <Link to="/Results" state={{ userQuery: userQuery }} />
-    navigate(`/Results${userQuery}`);
-  };
-
-    return (
-        <div id="results__row" className="row">
-            <div className="results__container">
-                <h1 className="section__title">
-                    <span className="color-text">Your Movie Results Are Here!</span>
-                </h1>
-                <h2 className="section__sub-title">
-                    Enjoy your<span className="color-text"> movie </span>time!
-                </h2>
-                <img
-                    src={headerImg}
-                    alt="Movie poster with face illustration"
-                    className="results__img"
-                />
-                <SearchBar userQuery={userQuery} onChange={onChange} onFormSubmit={onFormSubmit} />
-                <Movies userQuery={userQuery} movies={movies} fetchMovies={fetchMovies}  />
-            </div>
-        </div>
-    );
+    navigate(`/Results`);
+  };    
+    useEffect(() => {
+    const storedQuery = localStorage.getItem("userQuery");
+    if (storedQuery) {
+      setUserQuery(storedQuery);
+      fetchMovies(storedQuery);
+      console.log("useEffect ran (storedQuery)", storedQuery);
+    }
+    }, []);
+  return (
+    <div id="results__row" className="row">
+      <div className="results__container">
+        <h1 className="section__title">
+          <span className="color-text">Your Movie Results Are Here!</span>
+        </h1>
+        <h2 className="section__sub-title">
+          Enjoy your<span className="color-text"> movie </span>time!
+        </h2>
+        <img
+          src={headerImg}
+          alt="Movie poster with face illustration"
+          className="results__img"
+        />
+        <SearchBar
+          userQuery={userQuery}
+          onChange={onChange}
+          onFormSubmit={onFormSubmit}
+        />
+        <Movies
+          userQuery={userQuery}
+          movies={movies}
+          fetchMovies={fetchMovies}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default Results;

@@ -26,20 +26,17 @@ import Loading from "./ui/Loading.jsx";
 
 // export default Movies;
 
-function Movies({ moviesData, userQuery, allResults, movie, fetchMovies }) {
-const response = fetchMovies(userQuery) || moviesData || allResults;
-const filteredMovies = response?.filter((movie) =>
-    movie.Title?.toLowerCase().includes(userQuery?.toLowerCase() || "")
+function Movies({ moviesData, userQuery, allResults, movies, results }) {
+// const filteredMovies = moviesData?.filter((movie) =>
+//     movie.Title?.toLowerCase().includes(userQuery?.toLowerCase() || "")
+// ) || [];
 
-
-) || [];
-console.log (response);
 return (
     <div className="results__container">
         <h1>Movies Component</h1>
         <p>Search query: {userQuery}</p>
         <div className="results__container">
-            {filteredMovies.map((movie) => (
+            {movies.map((movie) => (
                 <div className="movie-card" key={movie.id || movie.imdbID}>
                     <div className="movie__poster">
                         <img src={movie.Poster || movie.poster} alt="movie poster" />

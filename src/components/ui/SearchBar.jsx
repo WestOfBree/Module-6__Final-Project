@@ -2,17 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function SearchBar({ onSubmit, fetchMovies, userQuery, setUserQuery, retrievedUserQuery, error, onFormSubmit, onChange }) {
+function SearchBar({ userQuery, error, onFormSubmit, onChange }) {
   // const navigate = useNavigate();
   // const [movies, setMovies] = useState([]);
   // const [error, setError] = useState("");
   // const [, setLoading] = useState(false);
   // const [userQuery, setUserQuery] = useState("");
 
-  // Clears the query from localStorage when the page is unloaded to prevent stale data
-  window.addEventListener("beforeunload", () => {
-    localStorage.removeItem("query");
-  });
+  // // Clears the query from localStorage when the page is unloaded to prevent stale data
+  // window.addEventListener("beforeunload", () => {
+  //   localStorage.removeItem("query");
+  // });
 
   // const fetchMovies = async (userQuery) => {
   //   if (!userQuery.trim()) {
@@ -70,15 +70,15 @@ function SearchBar({ onSubmit, fetchMovies, userQuery, setUserQuery, retrievedUs
 
   return (
     <div>
-      <form className="search-bar">
+      <form className="search-bar" onSubmit={onFormSubmit}>
         <input
           type="text"
           placeholder="What are you in the mood for?"
-          value={retrievedUserQuery}
+          value={userQuery}
           onChange={onChange}
           id="search--input"
         />
-        <button onSubmit={onFormSubmit} className="search--boop click" type="submit">
+        <button className="search--boop click" type="submit">
           boop
         </button>
       </form>
