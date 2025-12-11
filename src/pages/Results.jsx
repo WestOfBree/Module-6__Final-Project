@@ -17,8 +17,7 @@ function Results() {
   const [userQuery, setUserQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(true);
-  // const onChange
+  const [loading, setLoading] = useState(true);
 
   window.addEventListener("beforeunload", () => {
     localStorage.removeItem("userQuery");
@@ -28,7 +27,7 @@ function Results() {
     if (!userQuery.trim()) {
       return;
     }
-    // setLoading(true);
+    setLoading(true);
     setError("");
     try {
       const apiKey = "29e531e2";
@@ -61,7 +60,7 @@ function Results() {
       setMovies([]);
       setError("An error occurred. Please try again later.");
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
     console.log("fetchMovies ran (userQuery)", movies);
   };
@@ -87,7 +86,7 @@ function Results() {
     }, []);
   return (
     <div id="results__row" className="row">
-      <div className="results__container">
+      <div className="results__page--container">
         <h1 className="section__title">
           <span className="color-text">Your Movie Results Are Here!</span>
         </h1>
@@ -108,6 +107,8 @@ function Results() {
           userQuery={userQuery}
           movies={movies}
           fetchMovies={fetchMovies}
+          loading={loading}
+          error={error}
         />
       </div>
     </div>
