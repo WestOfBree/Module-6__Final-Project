@@ -36,6 +36,7 @@ return (
         <h1>Movies Component</h1>
         <p>Search query: {userQuery}</p>
         <div className="results__container">
+            <div>
             {movies.map((movie) => (
                 <div className="movie-card" key={movie.id || movie.imdbID}>
                     <div className="movie__poster">
@@ -45,8 +46,10 @@ return (
                     <div className="movie__rating">
                         {movie.imdbRating || movie.rating || "N/A"}
                     </div>
+                
                 </div>
             ))}
+        </div>
         </div>
     </div>
 );
