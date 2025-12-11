@@ -254,6 +254,10 @@ MOVIE CARD STYLES
 }
 .results__container{
     position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
 }
 .movie-card{
     max-width: calc(100% / 4);
@@ -282,6 +286,9 @@ scale: calc(1.1);
 .movie__poster{
     min-height: 410px;
     min-width: 200px;
+}
+.movies__container{
+  margin-top: 42px;
 }
 
 /* 
