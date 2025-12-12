@@ -28,6 +28,12 @@ function Results() {
       return;
     }
     setLoading(true);
+    console.log(
+      "fetchMovies started (userQuery)",
+      userQuery,
+      "loading",
+      loading
+    );
     setError("");
     try {
       const apiKey = "29e531e2";
@@ -61,8 +67,13 @@ function Results() {
       setError("An error occurred. Please try again later.");
     } finally {
       setLoading(false);
+      console.log(
+        "fetchMovies ended (userQuery)",
+        userQuery,
+        "loading",
+        loading
+      );
     }
-    console.log("fetchMovies ran (userQuery)", movies);
   };
 
   const onChange = (e) => {
@@ -75,15 +86,15 @@ function Results() {
     localStorage.setItem("userQuery", userQuery);
     // <Link to="/Results" state={{ userQuery: userQuery }} />
     navigate(`/Results`);
-  };    
-    useEffect(() => {
+  };
+  useEffect(() => {
     const storedQuery = localStorage.getItem("userQuery");
     if (storedQuery) {
       setUserQuery(storedQuery);
       fetchMovies(storedQuery);
       console.log("useEffect ran (storedQuery)", storedQuery);
     }
-    }, []);
+  }, []);
   return (
     <div id="results__row" className="row">
       <div className="results__page--container">
@@ -103,13 +114,14 @@ function Results() {
           onChange={onChange}
           onFormSubmit={onFormSubmit}
         />
-        <Movies
-          userQuery={userQuery}
-          movies={movies}
-          fetchMovies={fetchMovies}
-          loading={loading}
-          error={error}
-        />
+          <Movies
+            userQuery={userQuery}
+            movies={movies}
+            fetchMovies={fetchMovies}
+            loading={loading}
+            error={error}
+          />
+        
       </div>
     </div>
   );

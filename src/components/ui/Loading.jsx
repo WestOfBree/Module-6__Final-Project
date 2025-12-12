@@ -1,11 +1,13 @@
 import React from 'react'; 
-import { faFish } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFish } from "@fortawesome/free-solid-svg-icons";
 
-function Loading() {
+function Loading({loading}) {
+
     return (
-        <div id="loading-screen" className="loading-screen">
-                 <div id="loading-screen">
-                <i className="fa-solid fa-fish loading-icon" ></i>
+        <div id="loading__screen--container" className="loading__screen">
+                 <div id="loading__screen">
+               <FontAwesomeIcon className="loading__icon" icon={faFish} spin/>
             </div>
         </div>
     );
