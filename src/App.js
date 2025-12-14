@@ -1,19 +1,17 @@
-import './App.css';
-import React from 'react';
-import Home from './pages/Home.jsx';
-import Nav from './components/Nav.jsx';
-import ReactDOM from 'react-dom/client';
+import "./App.css";
+import React from "react";
+import Home from "./pages/Home.jsx";
+import Nav from "./components/Nav.jsx";
+import ReactDOM from "react-dom/client";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Results from './pages/Results.jsx';
-import Module from './components/Module.jsx';
-import Footer from './components/Footer.jsx';
-import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Results from "./pages/Results.jsx";
+import Module from "./components/Module.jsx";
+import Footer from "./components/Footer.jsx";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
-
 
 function App() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -23,16 +21,16 @@ function App() {
   };
 
   let movie;
-let moviesData = [];
-let isMenuOpen = false;
-// let loading = document.getElementById('loading-screen');
-const searchInput = document.querySelector(".search--input");
-const movieCard = document.querySelector(".results__container");
-const form = document.querySelector(".search-bar");
-const sliderBar = document.querySelector("#results__slider--input");
-const sliderCurrent = document.querySelector("#results__slider--current");
-let debounceTimeout;
-const query = localStorage.getItem("query");
+  let moviesData = [];
+  let isMenuOpen = false;
+  // let loading = document.getElementById('loading-screen');
+  const searchInput = document.querySelector(".search--input");
+  const movieCard = document.querySelector(".results__container");
+  const form = document.querySelector(".search-bar");
+  const sliderBar = document.querySelector("#results__slider--input");
+  const sliderCurrent = document.querySelector("#results__slider--current");
+  let debounceTimeout;
+  const query = localStorage.getItem("query");
   const location = useLocation();
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -41,7 +39,7 @@ const query = localStorage.getItem("query");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-const fetchMovies = async (userQuery) => {
+  const fetchMovies = async (userQuery) => {
     if (!userQuery.trim()) {
       return;
     }
@@ -105,23 +103,43 @@ const fetchMovies = async (userQuery) => {
     // <Link to="/Results" state={{ userQuery: userQuery }} />
     navigate(`/Results`);
   };
-    useEffect(() => {
-      const storedQuery = localStorage.getItem("userQuery");
-      if (storedQuery) {
-        setUserQuery(storedQuery);
-        fetchMovies(storedQuery);
-        console.log("useEffect ran (storedQuery)", storedQuery);
-      }
-    }, []);
+  useEffect(() => {
+    const storedQuery = localStorage.getItem("userQuery");
+    if (storedQuery) {
+      setUserQuery(storedQuery);
+      fetchMovies(storedQuery);
+      console.log("useEffect ran (storedQuery)", storedQuery);
+    }
+  }, []);
 
   return (
     // <Router>
     <div className="App">
       <Nav toggleModule={toggleModule} isOpen={isOpen} />
-      <Routes> <Route path="/" element={<Home fetchMovies={fetchMovies} onChange={onChange} onFormSubmit={onFormSubmit} />} />
-        <Route path="/Results" movieData={moviesData} fetchMovies={fetchMovies} onChange={onChange} onFormSubmit={onFormSubmit}  element={<Results />} />
+      <Routes>
+        {" "}
+        <Route
+          path="/"
+          element={
+            <Home
+              fetchMovies={fetchMovies}
+              onChange={onChange}
+              onFormSubmit={onFormSubmit}
+              setUserQuery={setUserQuery}
+            />
+          }
+        />
+        <Route
+          path="/Results"
+          movieData={moviesData}
+          fetchMovies={fetchMovies}
+          onChange={onChange}
+          onFormSubmit={onFormSubmit}
+          setUserQuery={setUserQuery}
+          element={<Results />}
+        />
       </Routes>
-      <Footer />  
+      <Footer />
     </div>
     // </Router>
   );

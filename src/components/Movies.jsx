@@ -19,20 +19,26 @@ function Movies({
     <div className="movies__container">
       <div className="results__container">
         {!loading ? (
-          movies.map((movie) => (
-            <div className="movie-card" key={movie.id || movie.imdbID}>
-              <div className="movie__poster">
-                <img src={movie.Poster || movie.poster} onClick={() => inConstructionAlert()} alt="movie poster" />
+          movies.length > 0 ? (
+            movies.map((movie) => (
+              <div className="movie-card" key={movie.id || movie.imdbID}>
+                <div className="movie__poster">
+                  <img src={movie.Poster || movie.poster} onClick={() => inConstructionAlert()} alt="movie poster" />
+                </div>
+                <div className="movie__name">{movie.Title || movie.title}</div>
+                <div className="movie__rating">
+                  {movie.imdbRating || movie.rating || "N/A"}
+                </div>
               </div>
-              <div className="movie__name">{movie.Title || movie.title}</div>
-              <div className="movie__rating">
-                {movie.imdbRating || movie.rating || "N/A"}
-              </div>
+            ))
+          ) : (
+            <div className="no-results">
+              <p>Please enter a search term to find movies.</p>
             </div>
-          ))
-        ) : ((
+          )
+        ) : (
           <Loading loading={loading} />
-        ))}
+        )}
       </div>
     </div>
   );

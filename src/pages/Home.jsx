@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/ui/SearchBar";
 
 
-function Home( { fetchMovies, onChange, onFormSubmit } ) {
+function Home( { fetchMovies, onChange, onFormSubmit, } ) {
     const [userQuery, setUserQuery] = useState("");
     const navigate = useNavigate();
 
     // function onChange(event) {
     //     const searchQuery = event.target.value?.trim();
     //     if (!searchQuery) return;
-    //     localStorage.setItem("query", searchQuery);
+    //     localStorage.setItem("userQuery", searchQuery);
     //     setUserQuery(searchQuery);
     // }
 
@@ -33,6 +33,7 @@ function Home( { fetchMovies, onChange, onFormSubmit } ) {
                         userQuery={userQuery} 
                         onChange={onChange} 
                         onFormSubmit={handleSubmit} 
+                        setUserQuery={setUserQuery}
                     />
                     {/* <form className="search-bar" onSubmit={handleSubmit}>
                         <input

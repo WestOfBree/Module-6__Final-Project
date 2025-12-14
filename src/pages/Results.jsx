@@ -10,14 +10,14 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/ui/Loading.jsx";
 
-function Results({ fetchMovies, onChange, onFormSubmit }) {
+function Results({ fetchMovies, onChange, onFormSubmit, loading, setLoading,  }) {
   const location = useLocation();
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const [userQuery, setUserQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   window.addEventListener("beforeunload", () => {
     localStorage.removeItem("userQuery");
@@ -110,9 +110,11 @@ function Results({ fetchMovies, onChange, onFormSubmit }) {
           className="results__img"
         />
         <SearchBar
+        fetchMovies={fetchMovies}
           userQuery={userQuery}
           onChange={onChange}
           onFormSubmit={onFormSubmit}
+          setUserQuery={setUserQuery}
         />
           <Movies
             userQuery={userQuery}
@@ -120,6 +122,7 @@ function Results({ fetchMovies, onChange, onFormSubmit }) {
             fetchMovies={fetchMovies}
             loading={loading}
             error={error}
+            setLoading={setLoading}
           />
         
       </div>
