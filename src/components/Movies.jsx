@@ -44,7 +44,7 @@ function Movies({
   return (
     <div className="movies__container">
       <div className="results__container">
-        {loading ? (
+        {!loading ? (
           movies.map((movie) => (
             <div className="movie-card" key={movie.id || movie.imdbID}>
               <div className="movie__poster">
