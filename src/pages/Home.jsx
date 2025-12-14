@@ -5,22 +5,23 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/ui/SearchBar";
 
 
-function Home() {
+function Home( { fetchMovies, onChange, onFormSubmit } ) {
     const [userQuery, setUserQuery] = useState("");
     const navigate = useNavigate();
 
-    function onSearchChange(event) {
-        const searchQuery = event.target.value?.trim();
-        if (!searchQuery) return;
-        localStorage.setItem("query", searchQuery);
-        setUserQuery(searchQuery);
-    }
+    // function onChange(event) {
+    //     const searchQuery = event.target.value?.trim();
+    //     if (!searchQuery) return;
+    //     localStorage.setItem("query", searchQuery);
+    //     setUserQuery(searchQuery);
+    // }
 
     function handleSubmit(event) {
         event.preventDefault();
         if (!userQuery) return;
         navigate("/Results", { state: { query: userQuery } });
     }
+    
 
     return (
         <div className="row">
@@ -30,7 +31,7 @@ function Home() {
                 <div className="search--container">
                      <SearchBar 
                         userQuery={userQuery} 
-                        onChange={onSearchChange} 
+                        onChange={onChange} 
                         onFormSubmit={handleSubmit} 
                     />
                     {/* <form className="search-bar" onSubmit={handleSubmit}>

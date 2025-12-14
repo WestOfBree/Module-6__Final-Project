@@ -75,7 +75,7 @@ function SearchBar({ userQuery, error, onFormSubmit, onChange }) {
           type="text"
           placeholder="What are you in the mood for?"
           value={userQuery}
-          onChange={onChange}
+          onChange={() => onChange()}
           id="search--input"
         />
         <button className="search--boop click" type="submit">
