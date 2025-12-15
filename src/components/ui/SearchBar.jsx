@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function SearchBar({ userQuery, error, onFormSubmit, onChange, setUserQuery, onSearch }) {
+function SearchBar({ userQuery, error, onSubmit, onChange, setUserQuery, onSearch, onFormSubmit}) {
   // const navigate = useNavigate();
   // const [movies, setMovies] = useState([]);
   // const [error, setError] = useState("");
@@ -70,7 +70,7 @@ function SearchBar({ userQuery, error, onFormSubmit, onChange, setUserQuery, onS
 
   return (
     <div>
-      <form className="search-bar" onSubmit={onFormSubmit}>
+      <form className="search-bar"  onSubmit={() => onFormSubmit()}>
         <input
           type="text"
           placeholder="What are you in the mood for?"

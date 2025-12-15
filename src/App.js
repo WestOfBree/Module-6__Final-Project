@@ -39,14 +39,14 @@ function App() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
+
   const fetchMovies = async (query) => {
+  
     if (!query) {
       return;
       // fetchMovies aborted: empty query
-    };
-    const handleSearch = () => {
-      fetchMovies(userQuery);
-    };
+    }
+
     setLoading(true);
     console.log(
       "fetchMovies started (userQuery)",
@@ -96,6 +96,10 @@ function App() {
     }
   };
 
+    const handleSearch = () => {
+      fetchMovies(userQuery);
+    };
+
   const onChange = (e) => {
     setUserQuery(e.target.value);
   };
@@ -105,7 +109,7 @@ function App() {
     localStorage.setItem("userQuery", userQuery);
     // <Link to="/Results" state={{ userQuery: userQuery }} />
     navigate(`/Results`);
-    console.log("onFormSubmit ran (userQuery)", userQuery)
+    console.log("onFormSubmit ran (userQuery)", userQuery);
   };
   useEffect(() => {
     const storedQuery = localStorage.getItem("userQuery");
@@ -130,7 +134,7 @@ function App() {
               onChange={onChange}
               onFormSubmit={onFormSubmit}
               setUserQuery={setUserQuery}
-              onSearch={handleSearch}
+              handleSearch={handleSearch}
             />
           }
         />
