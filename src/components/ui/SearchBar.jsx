@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function SearchBar({ userQuery, error, onFormSubmit, onChange, setUserQuery, movies, fetchMovies, setLoading }) {
+function SearchBar({ userQuery, error, onFormSubmit, onChange, setUserQuery, onSearch }) {
   // const navigate = useNavigate();
   // const [movies, setMovies] = useState([]);
   // const [error, setError] = useState("");
@@ -78,7 +78,7 @@ function SearchBar({ userQuery, error, onFormSubmit, onChange, setUserQuery, mov
           onChange={(e) => (setUserQuery(e.target.value), console.log(e.target.value))}
           id="search--input"
         />
-        <button className="search--boop click" type="submit" onClick={onFormSubmit}>
+        <button className="search--boop click" type="submit" onClick={onSearch}>
           boop
         </button>
       </form>

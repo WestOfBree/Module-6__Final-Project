@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/ui/Loading.jsx";
 
-function Results({ fetchMovies, onChange, onFormSubmit, loading, setLoading,  }) {
+function Results({ fetchMovies, onChange, onFormSubmit, loading, setLoading, onSearch }) {
   const location = useLocation();
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -115,6 +115,7 @@ function Results({ fetchMovies, onChange, onFormSubmit, loading, setLoading,  })
           onChange={onChange}
           onFormSubmit={onFormSubmit}
           setUserQuery={setUserQuery}
+          onSearch={onSearch}
         />
           <Movies
             userQuery={userQuery}

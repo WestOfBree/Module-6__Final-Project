@@ -34,6 +34,7 @@ function Home( { fetchMovies, onChange, onFormSubmit, } ) {
                         onChange={onChange} 
                         onFormSubmit={handleSubmit} 
                         setUserQuery={setUserQuery}
+                        onSearch={handleSearch}
                     />
                     {/* <form className="search-bar" onSubmit={handleSubmit}>
                         <input
