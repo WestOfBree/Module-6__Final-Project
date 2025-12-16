@@ -5,6 +5,8 @@ function Movies({
   userQuery,
   results,
   loading,
+  error,
+  fetchResults,
 }) {
   // Validate results prop
   if (!Array.isArray(results)) {

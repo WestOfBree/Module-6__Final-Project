@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function SearchBar({ fetchResults, userQuery, error, onSubmit, onChange, setUserQuery, onSearch, onFormSubmit}) {
+function SearchBar({  userQuery, error, onChange, setUserQuery, onFormSubmit}) {
 
   return (
     <div>
@@ -11,7 +11,7 @@ function SearchBar({ fetchResults, userQuery, error, onSubmit, onChange, setUser
           type="text"
           placeholder="What are you in the mood for?"
           value={userQuery}
-          onChange={(e) => (setUserQuery(e.target.value), console.log(e.target.value))}
+          onChange={(e) => {setUserQuery(e.target.value), console.log(e.target.value);}}
           id="search--input"
         />
         <button className="search--boop click" type="submit" >

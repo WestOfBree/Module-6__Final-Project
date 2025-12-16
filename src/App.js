@@ -143,7 +143,7 @@ function App() {
         />
         <Route
           path="/Results"
-          movieData={moviesData}
+          // movieData={moviesData}
           fetchResults={fetchResults}
           results={results}
           onChange={onChange}
@@ -152,6 +152,8 @@ function App() {
           // onSearch={handleSearch}
           loading={loading}
           setLoading={setLoading}
+          userQuery={userQuery}
+          error={error}
           element={<Results />}
         />
       </Routes>
