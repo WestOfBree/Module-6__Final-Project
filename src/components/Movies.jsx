@@ -27,8 +27,8 @@ function Movies({
                 <img src={results.Poster || results.poster} onClick={() => alert("This feature is still in construction. Please check back later!")} alt="movie poster" />
               </div>
               <div className="movie__name">{results.Title || results.title}</div>
-              <div className="movie__rating">
-                {results.imdbRating || results.rating || "N/A"}
+              <div className="movie__year">
+                {results.Year || results.year || "N/A"}
               </div>
             </div>
           ))

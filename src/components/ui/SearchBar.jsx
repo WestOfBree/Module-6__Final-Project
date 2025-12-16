@@ -11,7 +11,7 @@ function SearchBar({  userQuery, error, onChange, setUserQuery, onFormSubmit}) {
           type="text"
           placeholder="What are you in the mood for?"
           value={userQuery}
-          onChange={(e) => {setUserQuery(e.target.value), console.log(e.target.value);}}
+          onChange={(e) => {setUserQuery(e.target.value); console.log(e.target.value);}}
           id="search--input"
         />
         <button className="search--boop click" type="submit" >

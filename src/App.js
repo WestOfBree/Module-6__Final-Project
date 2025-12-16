@@ -124,9 +124,10 @@ function App() {
   return (
     // <Router>
     <div className="App">
-      <Nav toggleModule={toggleModule} isOpen={isOpen} />
+      <Nav toggleModule={toggleModule} isOpen={isOpen} setIsOpen={setIsOpen} />
       <Routes>
         {" "}
+        <Route path="/module" element={isOpen && <Module toggleModule={toggleModule} isOpen={isOpen} setIsOpen={setIsOpen} />} />{" "}
         <Route
           path="/"
           element={
@@ -138,23 +139,24 @@ function App() {
               // handleSearch={handleSearch}
               results={results}
               userQuery={userQuery}
+              loading={loading}
+              setLoading={setLoading}
+              error={error}
             />
           }
         />
         <Route
           path="/Results"
-          // movieData={moviesData}
+          element={<Results
           fetchResults={fetchResults}
           results={results}
           onChange={onChange}
           onFormSubmit={onFormSubmit}
           setUserQuery={setUserQuery}
-          // onSearch={handleSearch}
           loading={loading}
           setLoading={setLoading}
           userQuery={userQuery}
-          error={error}
-          element={<Results />}
+          error={error} />}
         />
       </Routes>
       <Footer />

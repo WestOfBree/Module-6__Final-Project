@@ -544,7 +544,7 @@ MEDIA QUERIES
 }
 */
 /* IN CONSTRUCTION STYLES */
-.broken-click{
+
+.no-click:hover{
   cursor: not-allowed;
-  background-color: grey;
 }

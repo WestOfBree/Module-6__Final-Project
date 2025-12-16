@@ -17,8 +17,8 @@ function Module({ toggleModule, isOpen, setIsOpen }) {
   if (!isOpen) return null;
 
   return (
-    <div className="row">
-      <div className="column">
+    // <div className="row">
+    //   <div className="column">
         <div className="module__container">
           <div className="module__container--background">
             <div className="module__header">
@@ -53,8 +53,8 @@ function Module({ toggleModule, isOpen, setIsOpen }) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 }
 
