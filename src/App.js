@@ -19,23 +19,17 @@ function App() {
   const toggleModule = () => {
     setIsOpen(!isOpen);
   };
-
-  let movie;
   let moviesData = [];
   let isMenuOpen = false;
   // let loading = document.getElementById('loading-screen');
-  const searchInput = document.querySelector(".search--input");
-  const movieCard = document.querySelector(".results__container");
-  const form = document.querySelector(".search-bar");
-  const sliderBar = document.querySelector("#results__slider--input");
-  const sliderCurrent = document.querySelector("#results__slider--current");
-  let debounceTimeout;
-  const query = localStorage.getItem("query");
-  const location = useLocation();
+  // const searchInput = document.querySelector(".search--input");
+  // const movieCard = document.querySelector(".results__container");
+  // const form = document.querySelector(".search-bar");
+  // const query = localStorage.getItem("query");
+  // const location = useLocation();
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const [userQuery, setUserQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -65,14 +59,14 @@ function App() {
         );
         return;
       }
-      setSearchResults = await fetch(
+      const searchResults = await fetch(
         `https://www.omdbapi.com/?apikey=29e531e2&s=${userQuery}`
 
       );
       console.log(searchResults);
       // for when the fetch fails
       if (!searchResults.ok) {
-        setResults([]);
+        const searchResults = [];
         console.log(searchResults);
         setError(`Error: ${searchResults.status} ${searchResults.statusText}`);
         return;
@@ -103,9 +97,9 @@ function App() {
     }
   };
 
-    const handleSearch = () => {
-      fetchResults(userQuery);
-    };
+    // const handleSearch = () => {
+    //   fetchResults(userQuery);
+    // };
 
   const onChange = (event) => {
     setUserQuery(event.target.value);
@@ -141,8 +135,9 @@ function App() {
               onChange={onChange}
               onFormSubmit={onFormSubmit}
               setUserQuery={setUserQuery}
-              handleSearch={handleSearch}
+              // handleSearch={handleSearch}
               results={results}
+              userQuery={userQuery}
             />
           }
         />
@@ -154,7 +149,7 @@ function App() {
           onChange={onChange}
           onFormSubmit={onFormSubmit}
           setUserQuery={setUserQuery}
-          onSearch={handleSearch}
+          // onSearch={handleSearch}
           loading={loading}
           setLoading={setLoading}
           element={<Results />}

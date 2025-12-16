@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/ui/SearchBar";
 
 
-function Home( { handleSearch, userQuery, setUserQuery, onChange, onFormSubmit,  } ) {
+function Home( { fetchResults, userQuery, setUserQuery, onChange, onFormSubmit,  } ) {
     const navigate = useNavigate();
 
     return (
@@ -18,7 +18,7 @@ function Home( { handleSearch, userQuery, setUserQuery, onChange, onFormSubmit, 
                         userQuery={userQuery} 
                         onFormSubmit={onFormSubmit} 
                         setUserQuery={setUserQuery}
-                        handleSearch={handleSearch}
+                        fetchResults={fetchResults}
                     />
                 </div>
                 <figure className="landing__img--wrapper">
