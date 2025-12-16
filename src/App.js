@@ -19,14 +19,6 @@ function App() {
   const toggleModule = () => {
     setIsOpen(!isOpen);
   };
-  let moviesData = [];
-  let isMenuOpen = false;
-  // let loading = document.getElementById('loading-screen');
-  // const searchInput = document.querySelector(".search--input");
-  // const movieCard = document.querySelector(".results__container");
-  // const form = document.querySelector(".search-bar");
-  // const query = localStorage.getItem("query");
-  // const location = useLocation();
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const [userQuery, setUserQuery] = useState("");
