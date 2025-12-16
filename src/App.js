@@ -32,7 +32,7 @@ function App() {
   let debounceTimeout;
   const query = localStorage.getItem("query");
   const location = useLocation();
-  const [movies, setMovies] = useState([]);
+  const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const [userQuery, setUserQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -40,16 +40,16 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 
-  const fetchMovies = async (query) => {
+  const fetchResults = async (query) => {
   
     if (!query) {
       return;
-      // fetchMovies aborted: empty query
+      // fetchResults aborted: empty query
     }
 
     setLoading(true);
     console.log(
-      "fetchMovies started (userQuery)",
+      "fetchResults started (userQuery)",
       userQuery,
       "loading",
       loading
@@ -57,38 +57,45 @@ function App() {
     setError("");
     try {
       const apiKey = "29e531e2";
+      //for when no api key is provided
       if (!apiKey) {
-        setMovies([]);
+        setResults([]);
         setError(
           "API key is missing. Please set REACT_APP_OMDB_API_KEY in your environment."
         );
         return;
       }
-      const response = await fetch(
+      setSearchResults = await fetch(
         `https://www.omdbapi.com/?apikey=29e531e2&s=${userQuery}`
+
       );
-      if (!response.ok) {
-        setMovies([]);
-        console.log(response);
-        setError(`Error: ${response.status} ${response.statusText}`);
+      console.log(searchResults);
+      // for when the fetch fails
+      if (!searchResults.ok) {
+        setResults([]);
+        console.log(searchResults);
+        setError(`Error: ${searchResults.status} ${searchResults.statusText}`);
         return;
       }
-      const data = await response.json();
-      const allResults = data.Search || [];
+      const results = await searchResults.json();
+      const allResults = results.Search || [];
+      // for when no results are found
       if (Array.isArray(allResults) && allResults.length > 0) {
-        setMovies(allResults);
+        setResults(allResults);
         setError("");
+        // fetchResults was successful!
+        console.log("fetchResults successful (allResults)", allResults);
       } else {
-        setMovies([]);
+        setResults([]);
         setError("No movies found. Please try a different search.");
       }
     } catch (err) {
-      setMovies([]);
+      setResults([]);
       setError("An error occurred. Please try again later.");
     } finally {
       setLoading(false);
       console.log(
-        "fetchMovies ended (userQuery)",
+        "fetchResults ended (userQuery)",
         userQuery,
         "loading",
         loading
@@ -97,15 +104,15 @@ function App() {
   };
 
     const handleSearch = () => {
-      fetchMovies(userQuery);
+      fetchResults(userQuery);
     };
 
-  const onChange = (e) => {
-    setUserQuery(e.target.value);
+  const onChange = (event) => {
+    setUserQuery(event.target.value);
   };
-  const onFormSubmit = (e) => {
-    e.preventDefault();
-    fetchMovies(userQuery);
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    fetchResults(userQuery);
     localStorage.setItem("userQuery", userQuery);
     // <Link to="/Results" state={{ userQuery: userQuery }} />
     navigate(`/Results`);
@@ -115,7 +122,7 @@ function App() {
     const storedQuery = localStorage.getItem("userQuery");
     if (storedQuery) {
       setUserQuery(storedQuery);
-      fetchMovies(storedQuery);
+      fetchResults(storedQuery);
       console.log("useEffect ran (storedQuery)", storedQuery);
     }
   }, []);
@@ -130,18 +137,20 @@ function App() {
           path="/"
           element={
             <Home
-              fetchMovies={fetchMovies}
+              fetchResults={fetchResults}
               onChange={onChange}
               onFormSubmit={onFormSubmit}
               setUserQuery={setUserQuery}
               handleSearch={handleSearch}
+              results={results}
             />
           }
         />
         <Route
           path="/Results"
           movieData={moviesData}
-          fetchMovies={fetchMovies}
+          fetchResults={fetchResults}
+          results={results}
           onChange={onChange}
           onFormSubmit={onFormSubmit}
           setUserQuery={setUserQuery}

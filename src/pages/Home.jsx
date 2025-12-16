@@ -8,20 +8,6 @@ import SearchBar from "../components/ui/SearchBar";
 function Home( { handleSearch, userQuery, setUserQuery, onChange, onFormSubmit,  } ) {
     const navigate = useNavigate();
 
-    // function onChange(event) {
-    //     const searchQuery = event.target.value?.trim();
-    //     if (!searchQuery) return;
-    //     localStorage.setItem("userQuery", searchQuery);
-    //     setUserQuery(searchQuery);
-    // }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        if (!userQuery) return;
-        navigate("/Results", { state: { query: userQuery } });
-    }
-    
-
     return (
         <div className="row">
             <div className="landing__container container">
@@ -34,18 +20,7 @@ function Home( { handleSearch, userQuery, setUserQuery, onChange, onFormSubmit, 
                         setUserQuery={setUserQuery}
                         handleSearch={handleSearch}
                     />
-                    {/* <form className="search-bar" onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder="What are you in the mood for?"
-                            value={userQuery}
-                            onChange={onSearchChange}
-                            id="search--input"
-                        />
-                        <button className="search--boop click" type="submit">boop</button>
-                    </form> */}
                 </div>
-                {/* <SearchBar userQuery={userQuery} onSearchChange={onSearchChange} onSubmit={() => {redirectToResults();render(query)}} /> */}
                 <figure className="landing__img--wrapper">
                     <img src={landingImg} alt="" className="landing__img" />
                 </figure>
