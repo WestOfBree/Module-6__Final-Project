@@ -34,7 +34,7 @@ function Module({ toggleModule, isOpen, setIsOpen }) {
               This site was built as a class project to showcase our skills in
               React development. If you would like to see more please check out
               my{" "}
-              <a href="" className="ePortfolio__link">
+              <a href="https://westofbree.github.io/advEportfolio/" target="_blank" rel="noopener noreferrer" className="ePortfolio__link">
                 ePortfolio
               </a>
               !
