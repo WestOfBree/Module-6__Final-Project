@@ -1,12 +1,13 @@
 import React from "react";
 import landingImg from "../assets/undraw_movie.svg";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import SearchBar from "../components/ui/SearchBar";
 
 
-function Home( { fetchResults, userQuery, setUserQuery, onChange, onFormSubmit,  } ) {
-    const navigate = useNavigate();
+function Home( { fetchResults, userQuery, setUserQuery, onChange, onFormSubmit, clearSearch } ) {
+    useEffect(() => {
+        clearSearch();
+    }, [clearSearch]);
 
     return (
         <div className="row">

@@ -34,20 +34,20 @@ function Module({ toggleModule, isOpen, setIsOpen }) {
               This site was built as a class project to showcase our skills in
               React development. If you would like to see more please check out
               my{" "}
-              <a href="" className="ePortfolio__link">
+              <a href="https://example.com" className="ePortfolio__link">
                 ePortfolio
               </a>
               !
             </p>
             {/* SOCIAL MEDIA ICONS */}
             <div className="module__socials">
-              <a href="" className="module__social--link no-cursor">
+              <a href="https://example.com" className="module__social--link no-cursor">
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
-              <a href="" className="module__social--link no-cursor">
+              <a href="https://example.com" className="module__social--link no-cursor">
                 <FontAwesomeIcon icon={faTwitter} />
               </a>
-              <a href="" className="module__social--link no-cursor">
+              <a href="https://example.com" className="module__social--link no-cursor">
                 <FontAwesomeIcon icon={faYoutube} />
               </a>
             </div>

@@ -1,23 +1,29 @@
 import React from "react";
 import headerImg from "../assets/movie-face-on-a-poster.jpg";
 import Movies from "../components/Movies.jsx";
-import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import SearchBar from "../components/ui/SearchBar.jsx";
-import Footer from "../components/Footer.jsx";
 // import { useNavigate as navigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Loading from "../components/ui/Loading.jsx";
 
 function Results({ fetchResults, onChange, onFormSubmit, loading, setLoading, onSearch, userQuery, setUserQuery, error, results }) {
   // const location = useLocation();
   // const navigate = useNavigate();
+  const [selectedYear, setSelectedYear] = useState(null);
 
   window.addEventListener("beforeunload", () => {
     localStorage.removeItem("userQuery");
   });
 
+  const allYears = Array.isArray(results)
+    ? Array.from(new Set(results.map((r) => r.Year || r.year).filter(Boolean))).map(Number).sort((a, b) => a - b)
+    : [];
+  const minYear = allYears.length ? allYears[0] : 0;
+  const maxYear = allYears.length ? allYears[allYears.length - 1] : 0;
+  const sliderYear = selectedYear ?? minYear;
+
+  const filteredResults = !selectedYear || selectedYear === minYear
+    ? results
+    : results.filter((r) => Number(r.Year || r.year) >= selectedYear);
 
   return (
     <div id="results__row" className="row">
@@ -43,9 +49,30 @@ function Results({ fetchResults, onChange, onFormSubmit, loading, setLoading, on
           error={error}
           results={results}
         />
+        {Array.isArray(results) && results.length > 0 && allYears.length > 1 && (
+          <div className="year-filter__container">
+            <label className="year-filter__label" htmlFor="year-slider">
+              Filter by Year: <span className="year-filter__value">{sliderYear === minYear ? "All" : `${sliderYear}+`}</span>
+            </label>
+            <input
+              id="year-slider"
+              className="year-filter__slider"
+              type="range"
+              min={minYear}
+              max={maxYear}
+              step={1}
+              value={sliderYear}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+            />
+            <div className="year-filter__range-labels">
+              <span>{minYear}</span>
+              <span>{maxYear}</span>
+            </div>
+          </div>
+        )}
           <Movies
             userQuery={userQuery}
-            results={results}
+            results={filteredResults}
             fetchResults={fetchResults}
             loading={loading}
             error={error}

@@ -2,16 +2,15 @@ import "./App.css";
 import React from "react";
 import Home from "./pages/Home.jsx";
 import Nav from "./components/Nav.jsx";
-import ReactDOM from "react-dom/client";
-import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Results from "./pages/Results.jsx";
+import Summary from "./pages/Summary.jsx";
 import Module from "./components/Module.jsx";
 import Footer from "./components/Footer.jsx";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useCallback } from "react";
 
 function App() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -19,8 +18,6 @@ function App() {
   const toggleModule = () => {
     setIsOpen(!isOpen);
   };
-  let moviesData = [];
-  let isMenuOpen = false;
   // let loading = document.getElementById('loading-screen');
   // const searchInput = document.querySelector(".search--input");
   // const movieCard = document.querySelector(".results__container");
@@ -34,7 +31,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 
-  const fetchResults = async (query) => {
+  const fetchResults = useCallback(async (query) => {
   
     if (!query) {
       return;
@@ -43,10 +40,8 @@ function App() {
 
     setLoading(true);
     console.log(
-      "fetchResults started (userQuery)",
-      userQuery,
-      "loading",
-      loading
+      "fetchResults started (query)",
+      query
     );
     setError("");
     try {
@@ -60,7 +55,7 @@ function App() {
         return;
       }
       const searchResults = await fetch(
-        `https://www.omdbapi.com/?apikey=29e531e2&s=${userQuery}`
+        `https://www.omdbapi.com/?apikey=29e531e2&s=${query}`
 
       );
       console.log(searchResults);
@@ -89,17 +84,22 @@ function App() {
     } finally {
       setLoading(false);
       console.log(
-        "fetchResults ended (userQuery)",
-        userQuery,
-        "loading",
-        loading
+        "fetchResults ended (query)",
+        query
       );
     }
-  };
+  }, []);
 
     // const handleSearch = () => {
     //   fetchResults(userQuery);
     // };
+
+  const clearSearch = useCallback(() => {
+    setUserQuery("");
+    setResults([]);
+    setError("");
+    localStorage.removeItem("userQuery");
+  }, []);
 
   const onChange = (event) => {
     setUserQuery(event.target.value);
@@ -119,7 +119,7 @@ function App() {
       fetchResults(storedQuery);
       console.log("useEffect ran (storedQuery)", storedQuery);
     }
-  }, []);
+  }, [fetchResults]);
 
   return (
     // <Router>
@@ -142,6 +142,7 @@ function App() {
               loading={loading}
               setLoading={setLoading}
               error={error}
+                          clearSearch={clearSearch}
             />
           }
         />
@@ -158,6 +159,7 @@ function App() {
           userQuery={userQuery}
           error={error} />}
         />
+        <Route path="/Summary/:imdbID" element={<Summary />} />
       </Routes>
       <Footer />
     </div>
