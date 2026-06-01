@@ -1,7 +1,7 @@
 import React from "react";
 import headerImg from "../assets/movie-face-on-a-poster.jpg";
 import Movies from "../components/Movies.jsx";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SearchBar from "../components/ui/SearchBar.jsx";
 // import { useNavigate as navigate } from "react-router-dom";
 
@@ -10,20 +10,51 @@ function Results({ fetchResults, onChange, onFormSubmit, loading, setLoading, on
   // const navigate = useNavigate();
   const [selectedYear, setSelectedYear] = useState(null);
 
+  const parseMovieYear = (movie) => {
+    const rawYear = movie?.Year || movie?.year;
+    if (typeof rawYear !== "string") {
+      return null;
+    }
+
+    const match = rawYear.match(/\d{4}/);
+    if (!match) {
+      return null;
+    }
+
+    const parsed = Number(match[0]);
+    return Number.isNaN(parsed) ? null : parsed;
+  };
+
   window.addEventListener("beforeunload", () => {
     localStorage.removeItem("userQuery");
   });
 
-  const allYears = Array.isArray(results)
-    ? Array.from(new Set(results.map((r) => r.Year || r.year).filter(Boolean))).map(Number).sort((a, b) => a - b)
-    : [];
+  const allYears = useMemo(() => {
+    if (!Array.isArray(results)) {
+      return [];
+    }
+
+    const parsedYears = results
+      .map((r) => parseMovieYear(r))
+      .filter((year) => year !== null);
+
+    return Array.from(new Set(parsedYears)).sort((a, b) => a - b);
+  }, [results]);
+
   const minYear = allYears.length ? allYears[0] : 0;
   const maxYear = allYears.length ? allYears[allYears.length - 1] : 0;
   const sliderYear = selectedYear ?? minYear;
 
-  const filteredResults = !selectedYear || selectedYear === minYear
+  useEffect(() => {
+    setSelectedYear(null);
+  }, [results]);
+
+  const filteredResults = selectedYear === null
     ? results
-    : results.filter((r) => Number(r.Year || r.year) >= selectedYear);
+    : results.filter((r) => {
+        const parsedYear = parseMovieYear(r);
+        return parsedYear !== null && parsedYear >= selectedYear;
+      });
 
   return (
     <div id="results__row" className="row">
